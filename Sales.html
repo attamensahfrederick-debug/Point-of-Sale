@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Daily Orders</title>
+    <style>
+        :root {
+            --bg: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
+            --panel: #ffffff;
+            --primary: #1f2937;
+            --success: #16a34a;
+            --text: #111827;
+            --muted: #475569;
+            --border: #e5e7eb;
+            --shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 24px;
+            margin: 0;
+            min-height: 100vh;
+            position: relative;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .header {
+            text-align: center;
+            margin: 0 auto 20px;
+            display: block;
+            color: var(--text);
+            font-size: 1.9rem;
+            font-weight: 700;
+        }
+
+        form {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .top-bar {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .top-bar label {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            font-weight: 600;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"] {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font: inherit;
+            background: white;
+            min-height: 42px;
+        }
+
+        input[type="number"] { width: 120px; }
+        input[readonly] { background:#f8fafc; }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+        }
+
+        th, td {
+            border-bottom: 1px solid var(--border);
+            padding: 14px 12px;
+            text-align: left;
+            height: 58px;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f8fafc;
+            color: var(--muted);
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        tbody tr:last-child td { border-bottom: none; }
+
+        .footer-actions {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-top: 16px;
+            margin-bottom: 10px;
+        }
+
+        .footer-actions button {
+            padding: 11px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            color: #fff;
+            background: var(--success);
+            min-width: 140px;
+        }
+
+        .account-box {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+            min-width: 220px;
+        }
+
+        .account-box label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--muted);
+        }
+
+        .account-box select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font: inherit;
+            background: #fff;
+        }
+
+        .sales-footer {
+            margin-top: 20px;
+            padding: 14px 18px;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="header">Daily Sales</h1>
+
+    <form id="order-form" onsubmit="return false;">
+        <div class="top-bar">
+            <label>Customer: <input type="text" id="customer" name="customer" placeholder="Customer name" /></label>
+            <label>Date: <input type="date" id="order-date" name="order-date" /></label>
+        </div>
+
+        <table id="order-table" aria-label="Order items">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Unit Price</th>
+                    <th>Line Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- First line for entry -->
+                <tr class="order-line">
+                    <td><input type="text" name="product[]" placeholder="Product description" /></td>
+                    <td><input type="number" name="qty[]" value="1" min="0" step="1" class="qty" /></td>
+                    <td><input type="number" name="price[]" value="0.00" min="0" step="0.01" class="price" /></td>
+                    <td><input type="number" name="total[]" value="0.00" readonly class="line-total" /></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer-actions">
+            <button type="button" class="add-line">Add</button>
+        </div>
+
+        <div class="sales-footer">
+            <strong>Order Total: $<span id="order-total">0.00</span></strong>
+            <strong>Payment Status: Pending</strong>
+        </div>
+    </form>
+
+    <div class="account-box">
+        <label for="attendant">Sales Attendant</label>
+        <select id="attendant" name="attendant">
+            <option value="">Select attendant</option>
+            <option value="Alice">Alice</option>
+            <option value="James">James</option>
+            <option value="Mary">Mary</option>
+            <option value="Andrew">Andrew</option>
+        </select>
+    </div>
+
+    <script src="js/sales.js"></script>
+</body>
+</html>

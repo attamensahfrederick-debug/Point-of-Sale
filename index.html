@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiggFred Dashboard</title>
+</head>
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
+            color: #1f2937;
+            padding: 40px 20px;
+        }
+
+        .header-section {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+        }
+
+        .header-content {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-color);
+        }
+
+        .card:hover {
+            border-color: #d1d5db;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .card[data-color="inventory"] { --accent-color: #3b82f6; }
+        .card[data-color="reorder"] { --accent-color: #10b981; }
+        .card[data-color="movement"] { --accent-color: #f59e0b; }
+        .card[data-color="sales"] { --accent-color: #ef4444; }
+        .card[data-color="purchases"] { --accent-color: #8b5cf6; }
+        .card[data-color="reports"] { --accent-color: #06b6d4; }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .card-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .card-button {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 6px;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: opacity 0.2s ease;
+        }
+
+        .card-button:hover {
+            opacity: 0.9;
+        }
+    </style>
+<body>
+<main>
+    <div class="header-section">
+        <h1 class="header-content">BiggFred Enterprise</h1>
+        <p class="header-subtitle">Inventory & Sales Management</p>
+    </div>
+    
+    <div class="card-grid">
+        <article class="card" data-color="inventory">
+            <h2 class="card-title">Inventory</h2>
+            <p class="card-text">Track all your stock and manage product availability in real-time.</p>
+            <a href="Inventory.html" class="card-button" target="_blank">Manage Inventory</a>
+        </article>
+
+        <article class="card" data-color="reorder">
+            <h2 class="card-title">Reorder</h2>
+            <p class="card-text">Monitor stock levels and place orders before items run low.</p>
+            <a href="#" class="card-button">Create Order</a>
+        </article>
+
+        <article class="card" data-color="movement">
+            <h2 class="card-title">Movement</h2>
+            <p class="card-text">Track outgoing goods and maintain visibility on product transfers.</p>
+            <a href="#" class="card-button">View Movements</a>
+        </article>
+
+        <article class="card" data-color="sales">
+            <h2 class="card-title">Sales</h2>
+            <p class="card-text">Record transactions and monitor your sales performance.</p>
+            <a href="Sales.html" class="card-button" target="_blank">Record Sales</a>
+        </article>
+
+        <article class="card" data-color="purchases">
+            <h2 class="card-title">Purchases</h2>
+            <p class="card-text">Log supplier purchases and maintain purchase history.</p>
+            <a href="#" class="card-button">Add Purchase</a>
+        </article>
+
+        <article class="card" data-color="reports">
+            <h2 class="card-title">Reports</h2>
+            <p class="card-text">Analyze sales trends, best performers, and business insights.</p>
+            <a href="#" class="card-button">View Reports</a>
+        </article>
+    </div>
+</main>
+    <script src="js/index.js"></script>
+</body>
+</html>

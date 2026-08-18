@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory Dashboard</title>
+    <style>
+        :root {
+            --bg: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
+            --card: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --primary: #2563eb;
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --danger: #dc2626;
+            --border: #e5e7eb;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .page {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .topbar .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            position: relative;
+            overflow: hidden;
+            color: #111827;
+        }
+
+        .card.total {
+            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+            border-color: #c4b5fd;
+            color: #000000;
+        }
+
+        .card.instock {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #86efac;
+            color: #000000;
+        }
+
+        .card.lowstock {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border-color: #fdba74;
+            color: #000000;
+        }
+
+        .card.outstock {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border-color: #fda4af;
+            color: #000000;
+        }
+
+        .card.value-card {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-color: #93c5fd;
+            color: #000000;
+        }
+
+        .card.profit-card {
+            background: linear-gradient(135deg, #ecfeff, #cffafe);
+            border-color: #67e8f9;
+            color: #000000;
+        }
+
+        .card .label {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .card .value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input, select, button {
+            font: inherit;
+        }
+
+        .filters input, .filters select {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            min-width: 180px;
+        }
+
+        .chip-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .chip {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: #f9fafb;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .chip[data-filter="Electronics"] { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+        .chip[data-filter="Clothing"] { background: #fdf2f8; color: #be185d; border-color: #fbcfe8; }
+        .chip[data-filter="Groceries"] { background: #ecfdf5; color: #15803d; border-color: #a7f3d0; }
+        .chip[data-filter="Drinks"] { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+        .chip[data-filter="All"] { background: #f3f4f6; color: #374151; border-color: #d1d5db; }
+
+        .chip[data-filter="Electronics"].active { background: #2563eb; color: white; border-color: #2563eb; }
+        .chip[data-filter="Clothing"].active { background: #db2777; color: white; border-color: #db2777; }
+        .chip[data-filter="Groceries"].active { background: #16a34a; color: white; border-color: #16a34a; }
+        .chip[data-filter="Drinks"].active { background: #ea580c; color: white; border-color: #ea580c; }
+        .chip[data-filter="All"].active { background: #111827; color: white; border-color: #111827; }
+
+        .alert {
+            border-left: 4px solid var(--warning);
+            padding: 12px 14px;
+            background: #fff7ed;
+            border-radius: 8px;
+            color: #92400e;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            color: var(--muted);
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .in-stock .dot { background: var(--success); }
+        .low-stock .dot { background: var(--warning); }
+        .out-stock .dot { background: var(--danger); }
+
+        .actions button {
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-right: 6px;
+            cursor: pointer;
+            background: #eef2ff;
+            color: #3730a3;
+            font-weight: 600;
+        }
+
+        .actions .danger { background: #fee2e2; color: #b91c1c; }
+        .actions .warn { background: #fef3c7; color: #92400e; }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 18px;
+        }
+
+        .history-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .history-adjustment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .history-item {
+            padding: 10px 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .adjustment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .adjustment-box {
+            background: #f9fafb;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .adjustment-box strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .adjustment-box input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-top: 6px;
+        }
+
+        .action-group {
+            display: grid;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .action-btn.add {
+            background: var(--success);
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .action-btn.edit {
+            background: var(--primary);
+            color: white;
+        }
+
+        .muted-text {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .cards { grid-template-columns: 1fr 1fr; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .history-adjustment-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .cards { grid-template-columns: 1fr; }
+            .topbar { flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="topbar">
+            <div>
+                <h1>Inventory Dashboard</h1>
+                <p style="margin: 4px 0 0; color: var(--muted);">Track stock, alerts, and item history in one place.</p>
+            </div>
+        </div>
+
+        <div class="cards">
+            <div class="card total">
+                <div class="label">Total Products</div>
+                <div class="value">248</div>
+            </div>
+            <div class="card instock">
+                <div class="label">In Stock</div>
+                <div class="value">184</div>
+            </div>
+            <div class="card lowstock">
+                <div class="label">Low Stock</div>
+                <div class="value">23</div>
+            </div>
+            <div class="card outstock">
+                <div class="label">Out of Stock</div>
+                <div class="value">7</div>
+            </div>
+            <div class="card value-card">
+                <div class="label">Total Inventory Value</div>
+                <div class="value">₵12,450</div>
+            </div>
+            <div class="card profit-card">
+                <div class="label">Expected Profit</div>
+                <div class="value">₵3,200</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="toolbar">
+                <div class="filters">
+                    <input id="searchInput" type="text" placeholder="Search products..." />
+                    <select id="categoryFilter">
+                        <option value="All">All Categories</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Groceries">Groceries</option>
+                        <option value="Drinks">Drinks</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="chip-row">
+                <div class="chip active" data-filter="All">All</div>
+                <div class="chip" data-filter="Electronics">Electronics</div>
+                <div class="chip" data-filter="Clothing">Clothing</div>
+                <div class="chip" data-filter="Groceries">Groceries</div>
+                <div class="chip" data-filter="Drinks">Drinks</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3 style="margin-top: 0;">Stock Inventory</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTable">
+                        <tr>
+                            <td>Laptop</td>
+                            <td>Electronics</td>
+                            <td>24</td>
+                            <td><span class="status in-stock"><span class="dot"></span> In Stock</span></td>
+                            <td class="actions">
+                                <button>Edit</button>
+                                <a href="additem.html"><button>Add</button></a>
+                                <button class="danger">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Shirt</td>
+                            <td>Clothing</td>
+                            <td>5</td>
+                            <td><span class="status low-stock"><span class="dot"></span> Low Stock</span></td>
+                            <td class="actions">
+                                <button>Edit</button>
+                                <a href="additem.html"><button>Add</button></a>
+                                <button class="danger">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Milk</td>
+                            <td>Groceries</td>
+                            <td>0</td>
+                            <td><span class="status out-stock"><span class="dot"></span> Out of Stock</span></td>
+                            <td class="actions">
+                                <button>Edit</button>
+                                <a href="additem.html"><button>Add</button></a>
+                                <button class="danger">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cola</td>
+                            <td>Drinks</td>
+                            <td>18</td>
+                            <td><span class="status in-stock"><span class="dot"></span> In Stock</span></td>
+                            <td class="actions">
+                                <button>Edit</button>
+                                <a href="additem.html"><button>Add</button></a>
+                                <button class="danger">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <div class="panel">
+                    <h3 style="margin-top: 0;">Low Stock Alert</h3>
+                    <div class="alert">Shirt is below the minimum stock level (5 left).</div>
+                    <div class="alert">Milk is currently out of stock.</div>
+                </div>
+
+                <div class="panel">
+                    <h3 style="margin-top: 0;">Quick Actions</h3>
+                    <div class="action-group">
+                        <a href="additem.html" class="action-btn add" style="text-decoration:none; display:block; text-align:center;">Add Item</a>
+                        <button class="action-btn delete">Delete Item</button>
+                        <button class="action-btn edit">Edit Item</button>
+                    </div>
+                    <p class="muted-text">Use these buttons to manage stock quickly from the inventory page.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="history-adjustment-grid">
+            <div class="panel">
+                <h3 style="margin-top: 0;">Inventory History</h3>
+                <div class="history-list">
+                    <div class="history-item"><strong>10:30 AM</strong> - Laptop stock increased by 10 units.</div>
+                    <div class="history-item"><strong>09:15 AM</strong> - Shirt stock reduced by 2 units.</div>
+                    <div class="history-item"><strong>08:00 AM</strong> - Milk marked as out of stock.</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3 style="margin-top: 0;">Stock Adjustments</h3>
+                <div class="adjustment-grid">
+                    <div class="adjustment-box">
+                        <strong>Expired Stock</strong>
+                        <input type="text" placeholder="List item" />
+                    </div>
+                    <div class="adjustment-box">
+                        <strong>Damaged Stock</strong>
+                        <input type="text" placeholder="List item" />
+                    </div>
+                </div>
+                <div class="adjustment-box" style="margin-top:12px;">
+                    <strong>Quantity</strong>
+                    <input type="number" placeholder="0" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/inventory.js"></script>
+</body>
+</html>
