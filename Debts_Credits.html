@@ -41,6 +41,12 @@
             box-shadow: 0 8px 24px rgba(30, 64, 175, 0.08);
         }
 
+        .ledgers {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
         h1,
         h2 {
             color: #1e3a8a;
@@ -65,6 +71,16 @@
             color: #1e40af;
             font-size: 0.85rem;
             letter-spacing: 0.04em;
+        }
+
+        .creditor {
+            color: #b45309;
+            font-weight: 700;
+        }
+
+        .debtor {
+            color: #047857;
+            font-weight: 700;
         }
 
         .entry-form {
@@ -126,6 +142,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .ledgers {
+                grid-template-columns: 1fr;
+            }
+
             table {
                 font-size: 0.9rem;
             }
@@ -152,42 +172,54 @@
             <label>
                 Type
                 <select id="entry-type">
-                    <option value="debt">Debt</option>
-                    <option value="credit">Credit</option>
+                    <option value="creditor">Creditor</option>
+                    <option value="debtor">Debtor</option>
                 </select>
             </label>
             <button type="submit">Add entry</button>
         </form>
     </div>
 
-    <div class="header-content">
-        <h1>CREDITORS</h1>
-        <table>
-            <tr>
-                <th>CREDITOR</th>
-                <th>AMOUNT OWED</th>
-            </tr>
-            <tr>
-            <td>J and S enterprise</td>
-            <td>Ghc 3000</td>
-            </tr>
-        </table>
-        <div class="summary">Total owed: <span id="debt-total">Ghc 3,000.00</span></div>
-    </div>
+    <h1>CREDITORS AND DEBTORS</h1>
+    <div class="ledgers">
+        <div class="header-content">
+            <h2>CREDITORS</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>NAME</th>
+                        <th>AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody id="creditors-body">
+                    <tr>
+                        <td>J and S enterprise</td>
+                        <td>Ghc 3000.00</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="summary">Total: <span id="creditor-total">Ghc 3,000.00</span></div>
+        </div>
 
-    <div class="section-content">
-        <h2>CREDITS</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>CUSTOMER</th>
-                    <th>AMOUNT AVAILABLE</th>
-                </tr>
-            </thead>
-            <tbody id="credits-body"></tbody>
-        </table>
-        <div class="summary">Total credit: <span id="credit-total">Ghc 0.00</span></div>
-    </div>    
+        <div class="section-content">
+            <h2>DEBTORS</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>NAME</th>
+                        <th>AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody id="debtors-body">
+                    <tr>
+                        <td>Sameul Opoku Ent</td>
+                        <td>Ghc 4000.00</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="summary">Total: <span id="debtor-total">Ghc 4000.00</span></div>
+        </div>
+    </div>
 </main>
 <script src="js/debts_credits.js"></script>
 </body>

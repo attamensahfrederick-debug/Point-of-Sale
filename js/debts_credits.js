@@ -1,10 +1,15 @@
 // Debt and credit entry management
 const entryForm = document.getElementById('entry-form');
-const debtTotal = document.getElementById('debt-total');
-const creditTotal = document.getElementById('credit-total');
-const creditsBody = document.getElementById('credits-body');
-let debtAmount = 3000;
-let creditAmount = 0;
+const creditorTotal = document.getElementById('creditor-total');
+const debtorTotal = document.getElementById('debtor-total');
+const creditorsBody = document.getElementById('creditors-body');
+const debtorsBody = document.getElementById('debtors-body');
+
+const parseAmount = (value) => Number.parseFloat(value.replace(/[^\d.-]/g, '')) || 0;
+const formatAmount = (amount) => `Ghc ${amount.toLocaleString('en-GH', { minimumFractionDigits: 2 })}`;
+
+let creditorAmount = parseAmount(creditorTotal.textContent);
+let debtorAmount = parseAmount(debtorTotal.textContent);
 
 entryForm.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -13,20 +18,26 @@ entryForm.addEventListener('submit', function (event) {
     const amount = Number(document.getElementById('amount').value);
     const entryType = document.getElementById('entry-type').value;
 
-    if (!person || amount <= 0) {
+    if (!person || !Number.isFinite(amount) || amount <= 0) {
         return;
     }
 
-    if (entryType === 'debt') {
-        debtAmount += amount;
-        debtTotal.textContent = `Ghc ${debtAmount.toLocaleString('en-GH', { minimumFractionDigits: 2 })}`;
+    if (entryType === 'creditor') {
+        creditorAmount += amount;
+        creditorTotal.textContent = formatAmount(creditorAmount);
     } else {
-        creditAmount += amount;
-        creditTotal.textContent = `Ghc ${creditAmount.toLocaleString('en-GH', { minimumFractionDigits: 2 })}`;
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${person}</td><td>Ghc ${amount.toLocaleString('en-GH', { minimumFractionDigits: 2 })}</td>`;
-        creditsBody.appendChild(row);
+        debtorAmount += amount;
+        debtorTotal.textContent = formatAmount(debtorAmount);
     }
+
+    const row = document.createElement('tr');
+    const personCell = document.createElement('td');
+    const amountCell = document.createElement('td');
+    personCell.textContent = person;
+    amountCell.textContent = formatAmount(amount);
+    row.append(personCell, amountCell);
+    const targetBody = entryType === 'creditor' ? creditorsBody : debtorsBody;
+    targetBody.appendChild(row);
 
     entryForm.reset();
 });
