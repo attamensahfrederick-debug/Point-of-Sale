@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchases | BiggFred Enterprise</title>
+    <style>
+        :root {
+            --background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
+            --panel: rgba(255, 255, 255, 0.96);
+            --text: #1f2937;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --accent: #16a34a;
+            --accent-soft: #f0fdf4;
+            --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 56px 20px;
+            background: var(--background);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        main {
+            width: min(100%, 1200px);
+            margin: 0 auto;
+        }
+
+        .header-section {
+            margin-bottom: 32px;
+        }
+
+        .header-content {
+            font-size: clamp(30px, 4vw, 44px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            color: #172033;
+        }
+
+        .header-subtitle {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .ledgers {
+            overflow: hidden;
+            padding: 24px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .ledgers h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            color: #203a32;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+        }
+
+        .ledgers h2::before {
+            width: 4px;
+            height: 20px;
+            border-radius: 2px;
+            background: var(--accent);
+            content: "";
+        }
+
+        .entry-form {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr) auto;
+            gap: 12px;
+            align-items: end;
+            margin-bottom: 24px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #f8fafc;
+        }
+
+        .form-field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .form-field label {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 10px 11px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: #ffffff;
+            color: var(--text);
+            font: inherit;
+        }
+
+        .entry-form button {
+            padding: 10px 16px;
+            border: 0;
+            border-radius: 7px;
+            background: var(--accent);
+            color: #ffffff;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+        }
+
+        .entry-form button:hover {
+            background: #15803d;
+        }
+
+        .form-message {
+            grid-column: 1 / -1;
+            min-height: 18px;
+            color: #b91c1c;
+            font-size: 13px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #ffffff;
+        }
+
+        th,
+        td {
+            padding: 15px 16px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f8fafc;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #334155;
+            font-size: 14px;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: var(--accent-soft);
+        }
+
+        .summary {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 18px;
+            color: #334155;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        #purchase-total {
+            color: var(--accent);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 32px 14px;
+            }
+
+            .ledgers {
+                padding: 16px;
+            }
+
+            .entry-form {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th,
+            td {
+                padding: 13px 12px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <main>
+        <div class="header-section">
+            <h1 class="header-content">Purchases and Suppliers</h1>
+            <p class="header-subtitle">Goods purchased from suppliers</p>
+        </div>
+
+        <div class="ledgers">
+            <h2>SUPPLIERS</h2>
+            <form id="supplier-form" class="entry-form">
+                <div class="form-field">
+                    <label for="supplier-name">Supplier name</label>
+                    <input type="text" id="supplier-name" required placeholder="e.g. J and J enterprise">
+                </div>
+                <div class="form-field">
+                    <label for="purchase-product">Product</label>
+                    <input type="text" id="purchase-product" required placeholder="e.g. Laptop">
+                </div>
+                <div class="form-field">
+                    <label for="purchase-quantity">Quantity</label>
+                    <input type="number" id="purchase-quantity" min="1" step="1" required placeholder="0">
+                </div>
+                <div class="form-field">
+                    <label for="purchase-amount">Amount (Ghc)</label>
+                    <input type="number" id="purchase-amount" min="0" step="0.01" required placeholder="0.00">
+                </div>
+                <button type="submit">Add purchase</button>
+                <p id="form-message" class="form-message" role="alert"></p>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>NAME</th>
+                        <th>PRODUCT</th>
+                        <th>QUANTITY</th>
+                        <th>AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody id="purchase-body">
+                    <tr>
+                        <td>J and J enterprise</td>
+                        <td>Laptop</td>
+                        <td>50</td>
+                        <td>Ghc 50000.00</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="summary">Total: <span id="purchase-total">Ghc 50000.00</span></div>
+        </div>
+    </main>    
+    <script src="js/purchases.js"></script>
+</body>
+</html>
