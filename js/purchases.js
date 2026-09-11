@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = document.getElementById('form-message');
     const storageKey = 'purchases';
 
+    if (!form || !tableBody || !totalDisplay) {
+        return;
+    }
+
     let purchases = JSON.parse(localStorage.getItem(storageKey) || 'null');
     if (!Array.isArray(purchases)) {
         purchases = [{
@@ -45,14 +49,18 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         if (!purchase.supplier || !purchase.product || purchase.quantity < 1 || purchase.amount < 0) {
-            message.textContent = 'Enter valid supplier, product, quantity, and amount details.';
+            if (message) {
+                message.textContent = 'Enter valid supplier, product, quantity, and amount details.';
+            }
             return;
         }
 
         purchases.push(purchase);
         localStorage.setItem(storageKey, JSON.stringify(purchases));
         form.reset();
-        message.textContent = '';
+        if (message) {
+            message.textContent = '';
+        }
         renderPurchases();
     });
 

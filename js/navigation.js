@@ -4,7 +4,9 @@
         { label: 'Inventory', href: 'Inventory.html', icon: 'I' },
         { label: 'Sales', href: 'Sales.html', icon: 'S' },
         { label: 'Purchases', href: 'Purchases.html', icon: 'P' },
-        { label: 'Accounts', href: 'Accounts.html', icon: 'A' },
+        { label: 'Manager', href: 'manager.html', icon: 'M' },
+        { label: 'Sales Attendant', href: 'salesperson.html', icon: 'A' },
+        { label: 'Accounts', href: 'Accounts.html', icon: 'C' },
         { label: 'Debts & Credits', href: 'Debts_Credits.html', icon: 'D' },
         { label: 'Add Item', href: 'additem.html', icon: '+' }
     ];

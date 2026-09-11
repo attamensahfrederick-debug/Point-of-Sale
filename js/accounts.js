@@ -7,13 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     accountCards.forEach((card) => {
         const role = card.dataset.color;
-        const title = card.querySelector('.card-title')?.textContent.trim() || role;
-        const button = document.createElement('button');
+        const targetPage = card.dataset.page || '#';
+        const button = document.createElement('a');
 
-        button.type = 'button';
+        button.href = targetPage;
         button.className = 'card-button';
         button.textContent = 'Select account';
         button.dataset.account = role;
+        button.setAttribute('aria-label', `Select ${role} account`);
         card.appendChild(button);
 
         button.addEventListener('click', () => {

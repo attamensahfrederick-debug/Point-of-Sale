@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manager Account | BiggFred Enterprise</title>
+    <style>
+        :root {
+            --bg: #eef2f0;
+            --panel: #ffffff;
+            --panel-soft: #f5f7f6;
+            --border: #dfe6e1;
+            --text: #1a2421;
+            --muted: #586762;
+            --primary: #1f3d36;
+            --primary-soft: #edf4f2;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--text);
+        }
+
+        .page-header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .status-banner {
+            margin-bottom: 24px;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            background: var(--primary-soft);
+            border-radius: 10px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+        }
+
+        .card h2 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        .card p {
+            margin: 0 0 18px;
+            line-height: 1.6;
+            color: var(--muted);
+        }
+
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin: 12px 0 18px;
+        }
+
+        .summary-box {
+            background: var(--panel-soft);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 10px;
+            text-align: center;
+        }
+
+        .summary-box small {
+            display: block;
+            color: var(--muted);
+            margin-bottom: 6px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .summary-box strong {
+            color: var(--text);
+            font-size: 1.05rem;
+        }
+
+        .card a {
+            display: inline-block;
+            text-decoration: none;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        .toolbar {
+            margin: 0 0 24px;
+            text-align: center;
+        }
+
+        .quick-action {
+            display: inline-block;
+            text-decoration: none;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        .card a:hover { opacity: 0.94; }
+    </style>
+</head>
+<body>
+    <main>
+        <header class="page-header">
+            <h1>Manager Account</h1>
+            <p>Operations dashboard for leadership and business oversight.</p>
+        </header>
+
+        <div class="status-banner" id="account-status">Active account: Manager</div>
+
+        <div class="toolbar">
+            <a class="quick-action" href="additem.html">Add Item</a>
+        </div>
+
+        <section class="card-grid">
+            <article class="card">
+                <h2>Sales Overview</h2>
+                <p>Monitor daily transactions and month-to-date revenue for the business.</p>
+                <div class="summary-row">
+                    <div class="summary-box"><small>Today</small><strong>Ghc 2,400</strong></div>
+                    <div class="summary-box"><small>This month</small><strong>Ghc 18,640</strong></div>
+                </div>
+                <a href="Sales.html">Open Sales</a>
+            </article>
+
+            <article class="card">
+                <h2>Purchases</h2>
+                <p>Track supplier purchases and stock expenses for the current period.</p>
+                <div class="summary-row">
+                    <div class="summary-box"><small>Today</small><strong>Ghc 1,300</strong></div>
+                    <div class="summary-box"><small>This month</small><strong>Ghc 12,540</strong></div>
+                </div>
+                <a href="Purchases.html">Open Purchases</a>
+            </article>
+
+            <article class="card">
+                <h2>Debts & Credits</h2>
+                <p>Review what is owed to and by the business over the selected period.</p>
+                <div class="summary-row">
+                    <div class="summary-box"><small>Today</small><strong>Ghc 850</strong></div>
+                    <div class="summary-box"><small>This month</small><strong>Ghc 6,340</strong></div>
+                </div>
+                <a href="Debts_Credits.html">Open Debts</a>
+            </article>
+        </section>
+    </main>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        const accountStatus = document.getElementById('account-status');
+        const savedAccount = localStorage.getItem('selectedAccount');
+
+        if (savedAccount) {
+            accountStatus.textContent = `Active account: ${savedAccount.charAt(0).toUpperCase() + savedAccount.slice(1)}`;
+        }
+    </script>
+</body>
+</html>

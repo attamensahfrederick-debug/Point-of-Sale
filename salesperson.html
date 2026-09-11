@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sales Attendant | BiggFred Enterprise</title>
+    <style>
+        :root {
+            --bg: #eef2f0;
+            --panel: #ffffff;
+            --panel-soft: #f5f7f6;
+            --border: #dfe6e1;
+            --text: #1a2421;
+            --muted: #586762;
+            --primary: #2b6a53;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--text);
+        }
+
+        .page-header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .status-banner {
+            margin-bottom: 24px;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            background: var(--panel-soft);
+            border-radius: 10px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+        }
+
+        .card h2 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        .card p {
+            margin: 0 0 18px;
+            line-height: 1.6;
+            color: var(--muted);
+        }
+
+        .card a {
+            display: inline-block;
+            text-decoration: none;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            padding: 10px 14px;
+            border-radius: 8px;
+        }
+
+        .card a:hover { opacity: 0.94; }
+    </style>
+</head>
+<body>
+    <main>
+        <header class="page-header">
+            <h1>Sales Attendant</h1>
+            <p>Daily sales and customer transaction management.</p>
+        </header>
+
+        <div class="status-banner" id="account-status">Active account: Sales Attendant</div>
+
+        <section class="card-grid">
+            <article class="card">
+                <h2>Add Item</h2>
+                <p>Create or update product records before processing a sale.</p>
+                <a href="additem.html">Open Add Item</a>
+            </article>
+
+            <article class="card">
+                <h2>Daily Sales</h2>
+                <p>Record customer orders and complete sales transactions.</p>
+                <a href="Sales.html">Open Sales</a>
+            </article>
+        </section>
+    </main>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        const accountStatus = document.getElementById('account-status');
+        const savedAccount = localStorage.getItem('selectedAccount');
+
+        if (savedAccount) {
+            const label = savedAccount === 'sales attendant' ? 'Sales Attendant' : savedAccount.charAt(0).toUpperCase() + savedAccount.slice(1);
+            accountStatus.textContent = `Active account: ${label}`;
+        }
+    </script>
+</body>
+</html>

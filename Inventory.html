@@ -6,15 +6,18 @@
     <title>Inventory Dashboard</title>
     <style>
         :root {
-            --bg: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
-            --card: #ffffff;
-            --text: #1f2937;
-            --muted: #6b7280;
-            --primary: #2563eb;
-            --success: #16a34a;
-            --warning: #f59e0b;
-            --danger: #dc2626;
-            --border: #e5e7eb;
+            --bg: #eef2f0;
+            --panel: #ffffff;
+            --panel-soft: #f5f7f6;
+            --border: #dfe6e1;
+            --text: #1a2421;
+            --muted: #586762;
+            --primary: #1f3d36;
+            --primary-soft: #edf4f2;
+            --success: #2b6a53;
+            --warning: #a56b1f;
+            --danger: #9c3b3b;
+            --shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
         }
 
         * { box-sizing: border-box; }
@@ -23,7 +26,7 @@
             font-family: Arial, Helvetica, sans-serif;
             background: var(--bg);
             color: var(--text);
-            padding: 20px;
+            padding: 28px 20px;
             min-height: 100vh;
         }
 
@@ -36,12 +39,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .topbar h1 {
             margin: 0;
-            font-size: 28px;
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            color: var(--text);
         }
 
         .topbar .btn {
@@ -55,76 +59,58 @@
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(6, minmax(0, 1fr));
             gap: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .card {
-            background: var(--card);
+            background: var(--panel);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-radius: 10px;
+            padding: 18px 16px;
+            box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
-            color: #111827;
+            color: var(--text);
         }
 
-        .card.total {
-            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
-            border-color: #c4b5fd;
-            color: #000000;
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 4px;
+            background: var(--accent-color);
         }
 
-        .card.instock {
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-            border-color: #86efac;
-            color: #000000;
-        }
-
-        .card.lowstock {
-            background: linear-gradient(135deg, #fff7ed, #ffedd5);
-            border-color: #fdba74;
-            color: #000000;
-        }
-
-        .card.outstock {
-            background: linear-gradient(135deg, #fef2f2, #fee2e2);
-            border-color: #fda4af;
-            color: #000000;
-        }
-
-        .card.value-card {
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
-            border-color: #93c5fd;
-            color: #000000;
-        }
-
-        .card.profit-card {
-            background: linear-gradient(135deg, #ecfeff, #cffafe);
-            border-color: #67e8f9;
-            color: #000000;
-        }
+        .card.total { --accent-color: #5d6d69; background: #f6f8f7; }
+        .card.instock { --accent-color: var(--success); background: #f3f9f6; }
+        .card.lowstock { --accent-color: var(--warning); background: #faf4eb; }
+        .card.outstock { --accent-color: var(--danger); background: #faf3f3; }
+        .card.value-card { --accent-color: #49666a; background: #f4f7f8; }
+        .card.profit-card { --accent-color: #526d68; background: #f4f7f5; }
 
         .card .label {
             color: var(--muted);
-            font-size: 13px;
-            margin-bottom: 6px;
+            font-size: 12px;
+            margin-bottom: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
 
         .card .value {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: clamp(1.6rem, 2vw, 2.1rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
         .panel {
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 10px;
             padding: 18px;
             margin-bottom: 18px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
 
         .toolbar {
@@ -163,7 +149,8 @@
             padding: 8px 12px;
             border: 1px solid var(--border);
             border-radius: 999px;
-            background: #f9fafb;
+            background: var(--panel-soft);
+            color: var(--text);
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -174,17 +161,17 @@
             border-color: var(--primary);
         }
 
-        .chip[data-filter="Electronics"] { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
-        .chip[data-filter="Clothing"] { background: #fdf2f8; color: #be185d; border-color: #fbcfe8; }
-        .chip[data-filter="Groceries"] { background: #ecfdf5; color: #15803d; border-color: #a7f3d0; }
-        .chip[data-filter="Drinks"] { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
-        .chip[data-filter="All"] { background: #f3f4f6; color: #374151; border-color: #d1d5db; }
+        .chip[data-filter="Electronics"] { background: #edf5ff; color: #294a80; border-color: #cfe0f7; }
+        .chip[data-filter="Clothing"] { background: #fdf3f8; color: #7e4867; border-color: #f0d7e3; }
+        .chip[data-filter="Groceries"] { background: #edf9f3; color: #245a46; border-color: #d0e9dc; }
+        .chip[data-filter="Drinks"] { background: #fff7ef; color: #87603a; border-color: #f1e4d0; }
+        .chip[data-filter="All"] { background: #f3f6f5; color: #2a3835; border-color: #dfe5e2; }
 
-        .chip[data-filter="Electronics"].active { background: #2563eb; color: white; border-color: #2563eb; }
-        .chip[data-filter="Clothing"].active { background: #db2777; color: white; border-color: #db2777; }
-        .chip[data-filter="Groceries"].active { background: #16a34a; color: white; border-color: #16a34a; }
-        .chip[data-filter="Drinks"].active { background: #ea580c; color: white; border-color: #ea580c; }
-        .chip[data-filter="All"].active { background: #111827; color: white; border-color: #111827; }
+        .chip[data-filter="Electronics"].active { background: #2c5a8c; color: white; border-color: #2c5a8c; }
+        .chip[data-filter="Clothing"].active { background: #8d496d; color: white; border-color: #8d496d; }
+        .chip[data-filter="Groceries"].active { background: #2e6d57; color: white; border-color: #2e6d57; }
+        .chip[data-filter="Drinks"].active { background: #a86b2f; color: white; border-color: #a86b2f; }
+        .chip[data-filter="All"].active { background: var(--primary); color: white; border-color: var(--primary); }
 
         .alert {
             border-left: 4px solid var(--warning);
@@ -360,19 +347,19 @@
                 <div class="value">248</div>
             </div>
             <div class="card instock">
-                <div class="label">In Stock</div>
+                <div class="label">Stock Left</div>
                 <div class="value">184</div>
             </div>
             <div class="card lowstock">
-                <div class="label">Low Stock</div>
-                <div class="value">23</div>
+                <div class="label">Sold This Month</div>
+                <div class="value">76</div>
             </div>
             <div class="card outstock">
                 <div class="label">Out of Stock</div>
                 <div class="value">7</div>
             </div>
             <div class="card value-card">
-                <div class="label">Total Inventory Value</div>
+                <div class="label">Inventory Value</div>
                 <div class="value">₵12,450</div>
             </div>
             <div class="card profit-card">
@@ -414,7 +401,6 @@
                             <th>Category</th>
                             <th>Stock</th>
                             <th>Status</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="inventoryTable">
@@ -423,44 +409,24 @@
                             <td>Electronics</td>
                             <td>24</td>
                             <td><span class="status in-stock"><span class="dot"></span> In Stock</span></td>
-                            <td class="actions">
-                                <button>Edit</button>
-                                <a href="additem.html"><button>Add</button></a>
-                                <button class="danger">Delete</button>
-                            </td>
                         </tr>
                         <tr>
                             <td>Shirt</td>
                             <td>Clothing</td>
                             <td>5</td>
                             <td><span class="status low-stock"><span class="dot"></span> Low Stock</span></td>
-                            <td class="actions">
-                                <button>Edit</button>
-                                <a href="additem.html"><button>Add</button></a>
-                                <button class="danger">Delete</button>
-                            </td>
                         </tr>
                         <tr>
                             <td>Milk</td>
                             <td>Groceries</td>
                             <td>0</td>
                             <td><span class="status out-stock"><span class="dot"></span> Out of Stock</span></td>
-                            <td class="actions">
-                                <button>Edit</button>
-                                <a href="additem.html"><button>Add</button></a>
-                                <button class="danger">Delete</button>
-                            </td>
                         </tr>
                         <tr>
                             <td>Cola</td>
                             <td>Drinks</td>
                             <td>18</td>
                             <td><span class="status in-stock"><span class="dot"></span> In Stock</span></td>
-                            <td class="actions">
-                                <button>Edit</button>
-                                <a href="additem.html"><button>Add</button></a>
-                                <button class="danger">Delete</button>
-                            </td>
                         </tr>
                     </tbody>
                 </table>

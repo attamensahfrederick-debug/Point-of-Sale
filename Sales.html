@@ -6,220 +6,273 @@
     <title>Daily Orders</title>
     <style>
         :root {
-            --bg: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
+            --bg: #eef2f0;
             --panel: #ffffff;
-            --primary: #1f2937;
-            --success: #16a34a;
-            --text: #111827;
-            --muted: #475569;
-            --border: #e5e7eb;
-            --shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+            --panel-soft: #f5f7f6;
+            --border: #dfe6e1;
+            --text: #1a2421;
+            --muted: #586762;
+            --primary: #1f3d36;
+            --primary-soft: #edf4f2;
+            --success: #2b6a53;
+            --danger: #9c3b3b;
         }
 
         * { box-sizing: border-box; }
 
         body {
-            font-family: Arial, sans-serif;
-            padding: 24px;
             margin: 0;
             min-height: 100vh;
-            position: relative;
+            padding: 40px 20px;
+            font-family: Arial, Helvetica, sans-serif;
             background: var(--bg);
             color: var(--text);
         }
 
-        .header {
+        .dashboard-shell {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .page-header {
             text-align: center;
-            margin: 0 auto 20px;
-            display: block;
+            margin-bottom: 24px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 4vw, 3rem);
             color: var(--text);
-            font-size: 1.9rem;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .page-action {
+            display: inline-block;
+            margin: 0 auto 28px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
             font-weight: 700;
         }
 
-        form {
+        .page-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+
+        .summary-box {
             background: var(--panel);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-        }
-
-        .top-bar {
-            display: flex;
-            gap: 18px;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-        }
-
-        .top-bar label {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-            font-weight: 600;
-            color: var(--muted);
-            font-size: 0.92rem;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="number"] {
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px 14px;
-            font: inherit;
-            background: white;
-            min-height: 42px;
-        }
-
-        input[type="number"] { width: 120px; }
-        input[readonly] { background:#f8fafc; }
-
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-top: 12px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            background: white;
-        }
-
-        th, td {
-            border-bottom: 1px solid var(--border);
-            padding: 14px 12px;
-            text-align: left;
-            height: 58px;
-            vertical-align: middle;
-        }
-
-        th {
-            background: #f8fafc;
-            color: var(--muted);
-            font-size: 0.82rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        tbody tr:last-child td { border-bottom: none; }
-
-        .footer-actions {
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            margin-top: 16px;
-            margin-bottom: 10px;
-        }
-
-        .footer-actions button {
-            padding: 11px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            color: #fff;
-            background: var(--success);
-            min-width: 140px;
-        }
-
-        .account-box {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            background: #ffffff;
-            border: 1px solid var(--border);
             border-radius: 10px;
-            padding: 14px 16px;
-            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
-            min-width: 220px;
+            padding: 22px 18px;
+            text-align: center;
         }
 
-        .account-box label {
+        .summary-box small {
             display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             color: var(--muted);
+            margin-bottom: 12px;
         }
 
-        .account-box select {
-            width: 100%;
-            padding: 10px 12px;
+        .summary-box strong {
+            font-size: clamp(1.6rem, 2vw, 2.3rem);
+            color: var(--text);
+        }
+
+        .dashboard-panel {
+            background: var(--panel);
             border: 1px solid var(--border);
             border-radius: 10px;
-            font: inherit;
-            background: #fff;
+            padding: 22px;
         }
 
-        .sales-footer {
-            margin-top: 20px;
-            padding: 14px 18px;
-            background: #f8fafc;
-            border: 1px solid var(--border);
+        .dashboard-panel h2 {
+            margin: 0 0 16px;
+            font-size: 1.15rem;
+            color: var(--text);
+        }
+
+        .mini-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .mini-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--panel-soft);
+        }
+
+        .mini-item span {
+            color: var(--muted);
+        }
+
+        .mini-item strong {
+            color: var(--text);
+        }
+
+        .reports-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
             border-radius: 10px;
-            font-size: 1rem;
+            padding: 22px;
+            margin-top: 26px;
+        }
+
+        .reports-panel h2 {
+            margin: 0 0 18px;
+            color: var(--text);
+        }
+
+        .reports-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+        }
+
+        .reports-table th,
+        .reports-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .reports-table thead {
+            background: var(--panel-soft);
+        }
+
+        .reports-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .trend-up {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .trend-down {
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        @media (max-width: 720px) {
+            .page-summary {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <h1 class="header">Daily Sales</h1>
+    <div class="dashboard-shell">
+        <header class="page-header">
+            <h1 id="pageTitle">Sales Summary</h1>
+            <p id="pageSubtitle">Daily, monthly, and yearly performance overview</p>
+        </header>
 
-    <form id="order-form" onsubmit="return false;">
-        <div class="top-bar">
-            <label>Customer: <input type="text" id="customer" name="customer" placeholder="Customer name" /></label>
-            <label>Date: <input type="date" id="order-date" name="order-date" /></label>
+        <div style="text-align:center;">
+            <a class="page-action" href="additem.html">Add Item</a>
         </div>
 
-        <table id="order-table" aria-label="Order items">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Qty</th>
-                    <th>Unit Price</th>
-                    <th>Line Total</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- First line for entry -->
-                <tr class="order-line">
-                    <td><input type="text" name="product[]" placeholder="Product description" /></td>
-                    <td><input type="number" name="qty[]" value="1" min="0" step="1" class="qty" /></td>
-                    <td><input type="number" name="price[]" value="0.00" min="0" step="0.01" class="price" /></td>
-                    <td><input type="number" name="total[]" value="0.00" readonly class="line-total" /></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="footer-actions">
-            <button type="button" class="add-line">Add</button>
+        <div class="page-summary" id="summaryGrid">
+            <div class="summary-box">
+                <small>Daily Sales</small>
+                <strong id="dailySales">Ghc 2,400</strong>
+            </div>
+            <div class="summary-box">
+                <small>Monthly Sales</small>
+                <strong id="monthlySales">Ghc 18,640</strong>
+            </div>
+            <div class="summary-box">
+                <small>Yearly Sales</small>
+                <strong id="yearlySales">Ghc 220,400</strong>
+            </div>
         </div>
 
-        <div class="sales-footer">
-            <strong>Order Total: $<span id="order-total">0.00</span></strong>
-            <strong>Payment Status: Pending</strong>
+        <div class="dashboard-panel">
+            <h2 id="panelTitle">Overall performance</h2>
+            <div class="mini-list" id="miniList">
+                <div class="mini-item"><span>Best selling period</span><strong>Month-end</strong></div>
+                <div class="mini-item"><span>Transaction count</span><strong>324 sales</strong></div>
+                <div class="mini-item"><span>Average order value</span><strong>Ghc 680.00</strong></div>
+            </div>
         </div>
-    </form>
 
-    <div class="account-box">
-        <label for="attendant">Sales Attendant</label>
-        <select id="attendant" name="attendant">
-            <option value="">Select attendant</option>
-            <option value="Alice">Alice</option>
-            <option value="James">James</option>
-            <option value="Mary">Mary</option>
-            <option value="Andrew">Andrew</option>
-        </select>
+        <div class="reports-panel">
+            <h2>Monthly sales report</h2>
+            <table class="reports-table">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Total Sales</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>January</td><td>Ghc 18,400</td><td class="trend-up">+12.5%</td></tr>
+                    <tr><td>February</td><td>Ghc 19,600</td><td class="trend-up">+8.3%</td></tr>
+                    <tr><td>March</td><td>Ghc 21,100</td><td class="trend-up">+7.2%</td></tr>
+                    <tr><td>April</td><td>Ghc 20,600</td><td class="trend-down">-2.1%</td></tr>
+                    <tr><td>May</td><td>Ghc 22,350</td><td class="trend-up">+8.5%</td></tr>
+                    <tr><td>June</td><td>Ghc 24,440</td><td class="trend-up">+9.4%</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="js/navigation.js"></script>
     <script src="js/sales.js"></script>
+    <script>
+        const selectedAccount = localStorage.getItem('selectedAccount');
+        const pageTitle = document.getElementById('pageTitle');
+        const pageSubtitle = document.getElementById('pageSubtitle');
+        const summaryGrid = document.getElementById('summaryGrid');
+        const panelTitle = document.getElementById('panelTitle');
+        const miniList = document.getElementById('miniList');
+
+        if (selectedAccount === 'sales attendant') {
+            pageTitle.textContent = 'Today\'s Sales';
+            pageSubtitle.textContent = 'All sales made for today';
+
+            summaryGrid.innerHTML = `
+                <div class="summary-box">
+                    <small>Sales Today</small>
+                    <strong>Ghc 1,240</strong>
+                </div>
+                <div class="summary-box">
+                    <small>Transactions</small>
+                    <strong>12 sales</strong>
+                </div>
+                <div class="summary-box">
+                    <small>Average Sale</small>
+                    <strong>Ghc 103.33</strong>
+                </div>
+            `;
+
+            panelTitle.textContent = 'Today\'s sales';
+            miniList.innerHTML = `
+                <div class="mini-item"><span>Customer 1</span><strong>Ghc 120.00</strong></div>
+                <div class="mini-item"><span>Customer 2</span><strong>Ghc 230.00</strong></div>
+                <div class="mini-item"><span>Customer 3</span><strong>Ghc 310.00</strong></div>
+                <div class="mini-item"><span>Customer 4</span><strong>Ghc 580.00</strong></div>
+            `;
+        }
+    </script>
 </body>
 </html>

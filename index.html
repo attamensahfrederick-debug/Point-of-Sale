@@ -7,6 +7,17 @@
 </head>
 <body>
     <style>
+        :root {
+            --bg: #eef2f0;
+            --panel: #ffffff;
+            --panel-soft: #f5f7f6;
+            --border: #dfe6e1;
+            --text: #1a2421;
+            --muted: #586762;
+            --primary: #1f3d36;
+            --success: #2b6a53;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,81 +26,63 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
-            color: #1f2937;
+            background: var(--bg);
+            color: var(--text);
             padding: 40px 20px;
         }
 
         .header-section {
             max-width: 1200px;
-            margin: 0 auto 50px;
+            margin: 0 auto 40px;
         }
 
         .header-content {
             font-size: 32px;
             font-weight: 700;
             margin-bottom: 8px;
-            color: #111827;
+            color: var(--text);
         }
 
         .header-subtitle {
             font-size: 14px;
-            color: #6b7280;
+            color: var(--muted);
         }
 
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
-            max-width: 1400px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
         .card {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #e5e7eb;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
             padding: 24px;
-            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--accent-color);
-        }
-
-        .card:hover {
-            border-color: #d1d5db;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            transform: translateY(-4px);
-        }
-
-        .card[data-color="inventory"] { --accent-color: #3b82f6; }
-        .card[data-color="debts_credits"] { --accent-color: #10b981; }
-        .card[data-color="accounts"] { --accent-color: #f59e0b; }
-        .card[data-color="sales"] { --accent-color: #ef4444; }
-        .card[data-color="purchases"] { --accent-color: #8b5cf6; }
-        .card[data-color="reports"] { --accent-color: #06b6d4; }
+        .card[data-color="inventory"] { --accent-color: var(--primary); }
+        .card[data-color="debts_credits"] { --accent-color: var(--success); }
+        .card[data-color="accounts"] { --accent-color: #3a4d4a; }
+        .card[data-color="sales"] { --accent-color: #5a736d; }
+        .card[data-color="purchases"] { --accent-color: #55696b; }
+        .card[data-color="reports"] { --accent-color: #7d8d8a; }
 
         .card-title {
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 12px;
-            color: #111827;
+            color: var(--text);
         }
 
         .card-text {
             font-size: 14px;
             line-height: 1.6;
-            color: #6b7280;
+            color: var(--muted);
             margin-bottom: 20px;
         }
 
@@ -101,12 +94,7 @@
             color: white;
             text-decoration: none;
             font-size: 14px;
-            font-weight: 500;
-            transition: opacity 0.2s ease;
-        }
-
-        .card-button:hover {
-            opacity: 0.9;
+            font-weight: 700;
         }
     </style>
 <body>
@@ -138,7 +126,7 @@
         <article class="card" data-color="sales">
             <h2 class="card-title">Sales</h2>
             <p class="card-text">Record transactions and monitor your sales performance.</p>
-            <a href="Sales.html" class="card-button" target="_blank">Record Sales</a>
+            <a href="Sales.html" class="card-button">Record Sales</a>
         </article>
 
         <article class="card" data-color="purchases">
@@ -150,7 +138,7 @@
         <article class="card" data-color="reports">
             <h2 class="card-title">Reports</h2>
             <p class="card-text">Analyze sales trends, best performers, and business insights.</p>
-            <a href="#" class="card-button">View Reports</a>
+            <a href="manager.html" class="card-button">View Reports</a>
         </article>
     </div>
 </main>

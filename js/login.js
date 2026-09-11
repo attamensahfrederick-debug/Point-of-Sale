@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setMessage('Login successful. Redirecting...', 'success');
 
         setTimeout(() => {
-            window.location.href = 'index.html';
+            window.location.href = 'Accounts.html';
         }, 700);
     });
 });

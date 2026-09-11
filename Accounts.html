@@ -7,6 +7,18 @@
 </head>
 <body>
     <style>
+        :root {
+            --bg: #eef2f0;
+            --panel: #ffffff;
+            --panel-soft: #f5f7f6;
+            --border: #dfe6e1;
+            --text: #1a2421;
+            --muted: #586762;
+            --primary: #1f3d36;
+            --primary-soft: #edf4f2;
+            --success: #2b6a53;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,32 +27,27 @@
 
         body {
             min-height: 100vh;
-            font-family: "Trebuchet MS", Arial, sans-serif;
-            background-color: #f7f8f5;
-            background-image: radial-gradient(#d7dfd7 0.8px, transparent 0.8px);
-            background-size: 22px 22px;
-            color: #24312c;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             padding: 64px 20px;
         }
 
         .header-section {
             max-width: 860px;
-            margin: 0 auto 36px;
+            margin: 0 auto 28px;
             text-align: center;
         }
 
         .header-content {
-            color: #203a32;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(32px, 5vw, 52px);
+            color: var(--text);
+            font-size: clamp(30px, 5vw, 46px);
             font-weight: 700;
-            letter-spacing: 0;
-            line-height: 1.05;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .header-subtitle {
-            color: #61726a;
+            color: var(--muted);
             font-size: 15px;
         }
 
@@ -53,115 +60,70 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.94);
-            border: 1px solid #dce5df;
+            background: var(--panel);
+            border: 1px solid var(--border);
             border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(45, 65, 56, 0.06);
             display: flex;
             flex-direction: column;
             min-height: 220px;
-            padding: 26px;
-            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+            padding: 24px;
             position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: var(--accent-color);
-        }
-
-        .card:hover {
-            border-color: var(--accent-color);
-            box-shadow: 0 16px 30px rgba(45, 65, 56, 0.12);
-            transform: translateY(-5px);
         }
 
         .card.selected {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 18%, transparent), 0 12px 24px rgba(45, 65, 56, 0.1);
+            border-color: var(--primary);
+            background: var(--primary-soft);
         }
 
-        .card[data-color="manager"] { --accent-color: #3b82f6; }
-        .card[data-color="sales attendant"] { --accent-color: #10b981; }
+        .card[data-color="manager"] { --accent-color: var(--primary); }
+        .card[data-color="sales attendant"] { --accent-color: var(--success); }
 
         .card-title {
-            color: #203a32;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 23px;
+            color: var(--text);
+            font-size: 22px;
             font-weight: 700;
-            line-height: 1.2;
             margin-bottom: 12px;
         }
 
         .card-text {
-            color: #687870;
+            color: var(--muted);
             font-size: 14px;
-            line-height: 1.65;
+            line-height: 1.6;
             margin-bottom: 22px;
-            max-width: 30rem;
         }
 
         .card-button {
-            align-items: center;
             align-self: flex-start;
-            border: 1px solid var(--accent-color);
-            cursor: pointer;
-            display: inline-flex;
-            gap: 10px;
             margin-top: auto;
+            border: 1px solid var(--accent-color);
+            background: var(--accent-color);
+            color: #fff;
             padding: 10px 15px;
             border-radius: 6px;
-            background: var(--accent-color);
-            color: white;
             font-size: 13px;
             font-weight: 700;
-            transition: background 0.2s ease, color 0.2s ease;
-        }
-
-        .card-button::after {
-            content: "->";
-            font-size: 16px;
-            line-height: 0.8;
+            text-decoration: none;
         }
 
         .card-button:hover,
         .card-button:focus-visible {
-            background: transparent;
-            color: var(--accent-color);
-            outline: 3px solid color-mix(in srgb, var(--accent-color) 22%, transparent);
-            outline-offset: 2px;
+            opacity: 0.92;
         }
 
         .account-status {
-            color: #486257;
+            color: var(--muted);
             font-size: 13px;
             font-weight: 600;
-            margin: -16px auto 28px;
+            margin: -8px auto 26px;
             max-width: 860px;
             text-align: center;
         }
 
         @media (max-width: 640px) {
-            body {
-                padding: 40px 16px;
-            }
-
-            .card-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .card {
-                min-height: 0;
-                padding: 22px;
-            }
+            body { padding: 40px 16px; }
+            .card-grid { grid-template-columns: 1fr; }
+            .card { min-height: 0; padding: 22px; }
         }
-
     </style>
     <main>
     <div class="header-section">
@@ -170,12 +132,12 @@
     </div>
 
     <div class="card-grid">
-        <article class="card" data-color="manager">
+        <article class="card" data-color="manager" data-page="manager.html">
             <h2 class="card-title">Manager Account</h2>
             <p class="card-text">Access business data, services, and management tools from one place.</p>
         </article>
 
-        <article class="card" data-color="sales attendant">
+        <article class="card" data-color="sales attendant" data-page="salesperson.html">
             <h2 class="card-title">Sales Attendant</h2>
             <p class="card-text">Handle daily sales activity and keep customer transactions moving.</p>
         </article>

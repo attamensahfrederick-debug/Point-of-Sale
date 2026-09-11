@@ -6,267 +6,280 @@
     <title>Purchases | BiggFred Enterprise</title>
     <style>
         :root {
-            --background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
-            --panel: rgba(255, 255, 255, 0.96);
-            --text: #1f2937;
-            --muted: #64748b;
-            --border: #e2e8f0;
-            --accent: #16a34a;
-            --accent-soft: #f0fdf4;
-            --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+            --bg: #eef2f0;
+            --panel: #ffffff;
+            --panel-soft: #f5f7f6;
+            --border: #dfe6e1;
+            --text: #1a2421;
+            --muted: #586762;
+            --primary: #1f3d36;
+            --success: #2b6a53;
+            --danger: #9c3b3b;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            min-height: 100vh;
-            padding: 56px 20px;
-            background: var(--background);
-            color: var(--text);
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        main {
-            width: min(100%, 1200px);
-            margin: 0 auto;
-        }
+    body {
+        min-height: 100vh;
+        padding: 40px 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+    }
 
         .header-section {
-            margin-bottom: 32px;
+            text-align: center;
+            margin-bottom: 24px;
         }
 
         .header-content {
-            font-size: clamp(30px, 4vw, 44px);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 10px;
-            color: #172033;
+            margin-bottom: 8px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--text);
         }
 
         .header-subtitle {
             color: var(--muted);
-            font-size: 15px;
+            font-size: 1rem;
         }
 
-        .ledgers {
-            overflow: hidden;
-            padding: 24px;
+        .page-action {
+            display: inline-block;
+            margin-bottom: 26px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .page-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+
+        .summary-box {
             background: var(--panel);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: var(--shadow);
+            border-radius: 10px;
+            padding: 22px 18px;
+            text-align: center;
         }
 
-        .ledgers h2 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-            color: #203a32;
-            font-size: 14px;
-            letter-spacing: 0.08em;
-        }
-
-        .ledgers h2::before {
-            width: 4px;
-            height: 20px;
-            border-radius: 2px;
-            background: var(--accent);
-            content: "";
-        }
-
-        .entry-form {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr) auto;
-            gap: 12px;
-            align-items: end;
-            margin-bottom: 24px;
-            padding: 16px;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            background: #f8fafc;
-        }
-
-        .form-field {
-            display: grid;
-            gap: 6px;
-        }
-
-        .form-field label {
-            color: var(--muted);
+        .summary-box small {
+            display: block;
             font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 12px;
         }
 
-        .form-field input {
-            width: 100%;
-            padding: 10px 11px;
-            border: 1px solid var(--border);
-            border-radius: 7px;
-            background: #ffffff;
+        .summary-box strong {
+            font-size: clamp(1.6rem, 2vw, 2.3rem);
             color: var(--text);
-            font: inherit;
         }
 
-        .entry-form button {
-            padding: 10px 16px;
-            border: 0;
-            border-radius: 7px;
-            background: var(--accent);
-            color: #ffffff;
-            cursor: pointer;
-            font: inherit;
-            font-weight: 700;
-        }
-
-        .entry-form button:hover {
-            background: #15803d;
-        }
-
-        .form-message {
-            grid-column: 1 / -1;
-            min-height: 18px;
-            color: #b91c1c;
-            font-size: 13px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            overflow: hidden;
+        .dashboard-panel {
+            background: var(--panel);
             border: 1px solid var(--border);
-            border-radius: 9px;
-            background: #ffffff;
+            border-radius: 10px;
+            padding: 22px;
         }
 
-        th,
-        td {
-            padding: 15px 16px;
+        .dashboard-panel h2 {
+            margin: 0 0 16px;
+            font-size: 1.15rem;
+            color: var(--text);
+        }
+
+        .mini-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .mini-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--panel-soft);
+        }
+
+        .mini-item span {
+            color: var(--muted);
+        }
+
+        .mini-item strong {
+            color: var(--text);
+        }
+
+        .reports-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+            margin-top: 26px;
+        }
+
+        .reports-panel h2 {
+            margin: 0 0 18px;
+            color: var(--text);
+        }
+
+        .reports-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .reports-table th,
+        .reports-table td {
+            padding: 12px 14px;
             border-bottom: 1px solid var(--border);
             text-align: left;
-            vertical-align: middle;
         }
 
-        th {
-            background: #f8fafc;
-            color: var(--muted);
-            font-size: 12px;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
+        .reports-table thead {
+            background: var(--panel-soft);
         }
 
-        td {
-            color: #334155;
-            font-size: 14px;
-        }
-
-        tbody tr:last-child td {
+        .reports-table tbody tr:last-child td {
             border-bottom: none;
         }
 
-        tbody tr:hover {
-            background: var(--accent-soft);
+        .supplier-summary {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+            margin-top: 26px;
         }
 
-        .summary {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-            margin-top: 18px;
-            color: #334155;
-            font-size: 15px;
+        .supplier-summary h2 {
+            margin: 0 0 18px;
+            color: var(--text);
+        }
+
+        .supplier-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .supplier-table th,
+        .supplier-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .supplier-table thead {
+            background: var(--panel-soft);
+        }
+
+        .trend-up {
+            color: var(--success);
             font-weight: 700;
         }
 
-        #purchase-total {
-            color: var(--accent);
+        .trend-down {
+            color: var(--danger);
+            font-weight: 700;
         }
 
-        @media (max-width: 640px) {
-            body {
-                padding: 32px 14px;
-            }
-
-            .ledgers {
-                padding: 16px;
-            }
-
-            .entry-form {
+        @media (max-width: 720px) {
+            .page-summary {
                 grid-template-columns: 1fr;
             }
-
-            table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-
-            th,
-            td {
-                padding: 13px 12px;
-            }
         }
-
     </style>
 </head>
 <body>
     <main>
         <div class="header-section">
-            <h1 class="header-content">Purchases and Suppliers</h1>
-            <p class="header-subtitle">Goods purchased from suppliers</p>
+            <h1 class="header-content">Purchases Summary</h1>
+            <p class="header-subtitle">Overall purchase performance at a glance</p>
         </div>
 
-        <div class="ledgers">
-            <h2>SUPPLIERS</h2>
-            <form id="supplier-form" class="entry-form">
-                <div class="form-field">
-                    <label for="supplier-name">Supplier name</label>
-                    <input type="text" id="supplier-name" required placeholder="e.g. J and J enterprise">
-                </div>
-                <div class="form-field">
-                    <label for="purchase-product">Product</label>
-                    <input type="text" id="purchase-product" required placeholder="e.g. Laptop">
-                </div>
-                <div class="form-field">
-                    <label for="purchase-quantity">Quantity</label>
-                    <input type="number" id="purchase-quantity" min="1" step="1" required placeholder="0">
-                </div>
-                <div class="form-field">
-                    <label for="purchase-amount">Amount (Ghc)</label>
-                    <input type="number" id="purchase-amount" min="0" step="0.01" required placeholder="0.00">
-                </div>
-                <button type="submit">Add purchase</button>
-                <p id="form-message" class="form-message" role="alert"></p>
-            </form>
-            <table>
+        <div style="text-align:center;">
+            <a class="page-action" href="additem.html">Add Item</a>
+        </div>
+
+        <div class="page-summary">
+            <div class="summary-box">
+                <small>Daily Purchases</small>
+                <strong>Ghc 1,300</strong>
+            </div>
+            <div class="summary-box">
+                <small>Monthly Purchases</small>
+                <strong>Ghc 12,540</strong>
+            </div>
+            <div class="summary-box">
+                <small>Yearly Purchases</small>
+                <strong>Ghc 145,000</strong>
+            </div>
+        </div>
+
+        <div class="dashboard-panel">
+            <h2>Purchase overview</h2>
+            <div class="mini-list">
+                <div class="mini-item"><span>Average order spend</span><strong>Ghc 2,300</strong></div>
+                <div class="mini-item"><span>Suppliers engaged</span><strong>18 suppliers</strong></div>
+                <div class="mini-item"><span>Restock status</span><strong>On schedule</strong></div>
+            </div>
+        </div>
+
+        <div class="reports-panel">
+            <h2>Monthly purchase report</h2>
+            <table class="reports-table">
                 <thead>
                     <tr>
-                        <th>NAME</th>
-                        <th>PRODUCT</th>
-                        <th>QUANTITY</th>
-                        <th>AMOUNT</th>
+                        <th>Month</th>
+                        <th>Total Purchases</th>
+                        <th>Progress</th>
                     </tr>
                 </thead>
-                <tbody id="purchase-body">
-                    <tr>
-                        <td>J and J enterprise</td>
-                        <td>Laptop</td>
-                        <td>50</td>
-                        <td>Ghc 50000.00</td>
-                    </tr>
+                <tbody>
+                    <tr><td>January</td><td>Ghc 10,500</td><td class="trend-up">+6.1%</td></tr>
+                    <tr><td>February</td><td>Ghc 11,200</td><td class="trend-up">+7.0%</td></tr>
+                    <tr><td>March</td><td>Ghc 12,800</td><td class="trend-up">+14.3%</td></tr>
+                    <tr><td>April</td><td>Ghc 11,950</td><td class="trend-down">-6.6%</td></tr>
+                    <tr><td>May</td><td>Ghc 13,420</td><td class="trend-up">+12.3%</td></tr>
+                    <tr><td>June</td><td>Ghc 14,980</td><td class="trend-up">+11.6%</td></tr>
                 </tbody>
             </table>
-            <div class="summary">Total: <span id="purchase-total">Ghc 50000.00</span></div>
         </div>
-    </main>    
+
+        <div class="supplier-summary">
+            <h2>Suppliers summary</h2>
+            <table class="supplier-table">
+                <thead>
+                    <tr>
+                        <th>Supplier</th>
+                        <th>Item</th>
+                        <th>Yearly total</th>
+                        <th>Month</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>J and J enterprise</td><td>Laptop</td><td>Ghc 50,000.00</td><td>June</td></tr>
+                    <tr><td>Sweet Foods Ghana</td><td>Rice Bags</td><td>Ghc 18,400.00</td><td>June</td></tr>
+                    <tr><td>Metro Supplies</td><td>Office Chairs</td><td>Ghc 8,600.00</td><td>May</td></tr>
+                    <tr><td>Akwaaba Traders</td><td>Printers</td><td>Ghc 12,700.00</td><td>April</td></tr>
+                    <tr><td>Green Valley Farms</td><td>Packaging</td><td>Ghc 9,300.00</td><td>March</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
     <script src="js/navigation.js"></script>
-    <script src="js/purchases.js"></script>
 </body>
 </html>

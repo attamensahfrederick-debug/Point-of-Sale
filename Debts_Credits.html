@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Debts and Credits</title>
-</head>
-<body>
+    <title>Debts & Credits</title>
     <style>
+        :root {
+            --bg: #eef2f0;
+            --panel: #ffffff;
+            --panel-soft: #f5f7f6;
+            --border: #dfe6e1;
+            --text: #1a2421;
+            --muted: #586762;
+            --primary: #1f3d36;
+            --success: #2b6a53;
+            --danger: #9c3b3b;
+            --warning: #a56b1f;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,214 +25,359 @@
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
-            color: #1f2937;
+            margin: 0;
+            min-height: 100vh;
             padding: 40px 20px;
-        }
-
-        header-content {
-            border: 10px;
-            padding: 20px;
-            border-spacing: 10px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
         }
 
         main {
-            max-width: 960px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .header-content,
         .section-content {
-            background: #ffffff;
-            border: 1px solid #dbeafe;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 24px rgba(30, 64, 175, 0.08);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 26px;
         }
 
-        .ledgers {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 24px;
-        }
-
-        h1,
-        h2 {
-            color: #1e3a8a;
+        h1 {
             margin-bottom: 18px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--text);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 12px;
+        .page-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 24px;
         }
 
-        th,
-        td {
-            border-bottom: 1px solid #e5e7eb;
-            padding: 14px 12px;
-            text-align: left;
+        .summary-box {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px 18px;
+            text-align: center;
         }
 
-        th {
-            background: #eff6ff;
-            color: #1e40af;
-            font-size: 0.85rem;
-            letter-spacing: 0.04em;
+        .summary-box small {
+            display: block;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 12px;
         }
 
-        .creditor {
-            color: #b45309;
+        .summary-box strong {
+            font-size: clamp(1.6rem, 2vw, 2.3rem);
+            color: var(--text);
+        }
+
+        .toolbar {
+            margin: 0 0 22px;
+        }
+
+        .quick-action {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
             font-weight: 700;
         }
 
-        .debtor {
-            color: #047857;
-            font-weight: 700;
+        .entry-panel {
+            background: var(--panel-soft);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .entry-panel h2 {
+            margin: 0 0 18px;
+            font-size: 1.35rem;
         }
 
         .entry-form {
             display: grid;
-            grid-template-columns: 1.2fr 1fr 1fr auto;
-            gap: 12px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
             align-items: end;
         }
 
-        label {
-            display: grid;
-            gap: 6px;
-            color: #374151;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        input,
-        select,
-        button {
-            min-height: 42px;
-            border: 1px solid #bfdbfe;
-            border-radius: 6px;
-            padding: 0 12px;
-            font: inherit;
-        }
-
-        button {
-            border-color: #1d4ed8;
-            background: #1d4ed8;
-            color: #ffffff;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        button:hover {
-            background: #1e40af;
-        }
-
-        .summary {
+        .form-group {
             display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-top: 18px;
-            color: #374151;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #ffffff;
+            font: inherit;
+            color: var(--text);
+        }
+
+        .btn-submit {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary);
+            color: #ffffff;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .ledger-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .ledger-panel {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .ledger-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--panel-soft);
+        }
+
+        .ledger-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .amount-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 8px 12px;
+            background: rgba(37, 99, 235, 0.08);
+            color: var(--primary);
+            font-size: 0.82rem;
             font-weight: 700;
         }
 
-        .summary span {
-            color: #1d4ed8;
+        .ledger-table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        @media (max-width: 700px) {
-            body {
-                padding: 20px 12px;
-            }
+        .ledger-table th,
+        .ledger-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
 
-            .entry-form {
+        .ledger-table thead {
+            background: #f9fafb;
+        }
+
+        .ledger-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .reports-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+            margin-top: 26px;
+        }
+
+        .reports-panel h2 {
+            margin: 0 0 18px;
+            color: var(--text);
+        }
+
+        .reports-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .reports-table th,
+        .reports-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .reports-table thead {
+            background: var(--panel-soft);
+        }
+
+        .reports-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .trend-up {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .trend-down {
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        @media (max-width: 820px) {
+            .page-summary,
+            .entry-form,
+            .ledger-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .ledgers {
-                grid-template-columns: 1fr;
-            }
-
-            table {
-                font-size: 0.9rem;
-            }
-
-            th,
-            td {
-                padding: 11px 8px;
             }
         }
     </style>
+</head>
 <body>
-<main>
-    <div class="section-content">
-        <h2>ADD DEBT OR CREDIT</h2>
-        <form class="entry-form" id="entry-form">
-            <label>
-                Name
-                <input id="person" type="text" placeholder="Customer or supplier" required>
-            </label>
-            <label>
-                Amount (Ghc)
-                <input id="amount" type="number" min="0" step="0.01" placeholder="0.00" required>
-            </label>
-            <label>
-                Type
-                <select id="entry-type">
-                    <option value="creditor">Creditor</option>
-                    <option value="debtor">Debtor</option>
-                </select>
-            </label>
-            <button type="submit">Add entry</button>
-        </form>
-    </div>
-
-    <h1>CREDITORS AND DEBTORS</h1>
-    <div class="ledgers">
-        <div class="header-content">
-            <h2>CREDITORS</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>NAME</th>
-                        <th>AMOUNT</th>
-                    </tr>
-                </thead>
-                <tbody id="creditors-body">
-                    <tr>
-                        <td>J and S enterprise</td>
-                        <td>Ghc 3000.00</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="summary">Total: <span id="creditor-total">Ghc 3,000.00</span></div>
-        </div>
-
+    <main>
         <div class="section-content">
-            <h2>DEBTORS</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>NAME</th>
-                        <th>AMOUNT</th>
-                    </tr>
-                </thead>
-                <tbody id="debtors-body">
-                    <tr>
-                        <td>Sameul Opoku Ent</td>
-                        <td>Ghc 4000.00</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="summary">Total: <span id="debtor-total">Ghc 4000.00</span></div>
+            <h1>Debts & Credits</h1>
+
+            <div class="toolbar">
+                <a class="quick-action" href="#add-entry">Add Entry</a>
+            </div>
+
+            <div class="page-summary">
+                <div class="summary-box">
+                    <small>Daily Summary</small>
+                    <strong>Ghc 850.00</strong>
+                </div>
+                <div class="summary-box">
+                    <small>Monthly Summary</small>
+                    <strong>Ghc 6,340.00</strong>
+                </div>
+                <div class="summary-box">
+                    <small>Yearly Summary</small>
+                    <strong>Ghc 72,400.00</strong>
+                </div>
+            </div>
+
+            <section class="entry-panel" id="add-entry">
+                <h2>Add Debtor or Creditor</h2>
+                <form id="entry-form" class="entry-form">
+                    <div class="form-group">
+                        <label for="person">Name</label>
+                        <input id="person" type="text" placeholder="Enter full name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input id="amount" type="number" min="0" step="0.01" placeholder="0.00" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="entry-type">Type</label>
+                        <select id="entry-type">
+                            <option value="creditor">Creditor</option>
+                            <option value="debtor">Debtor</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1 / -1; margin-top: 4px;">
+                        <button type="submit" class="btn-submit">Save Entry</button>
+                    </div>
+                </form>
+            </section>
+
+            <div class="ledger-grid">
+                <div class="ledger-panel">
+                    <div class="ledger-header">
+                        <h3>Creditors</h3>
+                        <span id="creditor-total" class="amount-pill">Ghc 18,200.00</span>
+                    </div>
+                    <table class="ledger-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="creditors-body">
+                            <tr><td>Samuel Mensah</td><td>Ghc 4,000.00</td></tr>
+                            <tr><td>Grace Boateng</td><td>Ghc 6,800.00</td></tr>
+                            <tr><td>Kwame Addo</td><td>Ghc 7,400.00</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="ledger-panel">
+                    <div class="ledger-header">
+                        <h3>Debtors</h3>
+                        <span id="debtor-total" class="amount-pill">Ghc 21,500.00</span>
+                    </div>
+                    <table class="ledger-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="debtors-body">
+                            <tr><td>Akufo Owusu</td><td>Ghc 8,200.00</td></tr>
+                            <tr><td>Naomi Sarpong</td><td>Ghc 7,600.00</td></tr>
+                            <tr><td>Esi Tetteh</td><td>Ghc 5,700.00</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="reports-panel">
+                <h2>Monthly debt and credit report</h2>
+                <table class="reports-table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Debtors</th>
+                            <th>Creditors</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>January</td><td>Ghc 18,200</td><td>Ghc 16,700</td><td class="trend-down">-Ghc 1,500</td></tr>
+                        <tr><td>February</td><td>Ghc 19,100</td><td>Ghc 17,900</td><td class="trend-down">-Ghc 1,200</td></tr>
+                        <tr><td>March</td><td>Ghc 20,500</td><td>Ghc 18,900</td><td class="trend-down">-Ghc 1,600</td></tr>
+                        <tr><td>April</td><td>Ghc 21,100</td><td>Ghc 19,300</td><td class="trend-up">+Ghc 800</td></tr>
+                        <tr><td>May</td><td>Ghc 22,400</td><td>Ghc 20,600</td><td class="trend-up">+Ghc 1,800</td></tr>
+                        <tr><td>June</td><td>Ghc 24,960</td><td>Ghc 22,300</td><td class="trend-up">+Ghc 2,660</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-</main>
-<script src="js/navigation.js"></script>
-<script src="js/debts_credits.js"></script>
+    </main>
+
+    <script src="js/navigation.js"></script>
+    <script src="js/debts_credits.js"></script>
 </body>
 </html>
